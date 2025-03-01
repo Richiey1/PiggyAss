@@ -1,30 +1,35 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@nomicfoundation/hardhat-ethers";
-import dotenv from "dotenv"
+require("dotenv").config();
 
-require('dotenv').config()
 
-const {BASE_SEPOLIA_RPC_URL, PRIVATE_KEY, BASESCAN_KEY } = process.env;
+import { vars } from "hardhat/config";
+
+const { SEPOLIA_API_KEY_URL, ACCOUNT_PRIVATE_KEY } = process.env;
+const ETHERSCAN_API_KEY = vars.get("ETHERSCAN_API_KEY");
+
 
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
 
-  networks: {
-    base: {
-      url: BASE_SEPOLIA_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`],
-      chainId: 84532,
-    },
+networks: {
     
-
-    
+  sepolia: {
+    url: SEPOLIA_API_KEY_URL,
+    accounts: [`0x${ACCOUNT_PRIVATE_KEY}`],
   },
-  etherscan: {
-    apiKey: BASESCAN_KEY,
-       
-  }   
+  
+},
+
+etherscan: {
+  apiKey: {
+    sepolia: ETHERSCAN_API_KEY,
+  },
+},
+
+
 };
 
 export default config;
+
